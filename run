@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+if [ $# != 1 ]; then
+    echo "usage: ./run <BINARY_NAME>"
+    exit 1
+fi
+
+ROOT_DIR=esp/efi/boot
+mkdir -p $ROOT_DIR
+cp $1 $ROOT_DIR/BOOTx64.EFI
+qemu-system-x86_64 --enable-kvm \
+    -nodefaults \
+    -device virtio-rng-pci \
+    -boot menu=on,splash-time=0 \
+    -machine q35 \
+    -vga std \
+    -device isa-debug-exit,iobase=0xf4,iosize=0x04 \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/ovmf/OVMF.fd \
+    -drive format=raw,file=fat:rw:esp

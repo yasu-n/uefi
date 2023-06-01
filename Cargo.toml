@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "hello",
+    "graphic",
+    "memmap",
+    "protocol",
+]
+
+[workspace.dependencies]
+log = "0.4.18"
+uefi = "0.21.0"
+uefi-services = "0.18.0"
